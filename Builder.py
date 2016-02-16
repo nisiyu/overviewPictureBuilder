@@ -40,10 +40,16 @@ class block(style):
             self.height = height * 100 / self.height_percent
             return self.height
         else:
+            # it's a block including items
             height = 0
+            # calc every blocks' height
             for item in self.items:
                 height += item.calc_height()
+
+            # add margins
             height += (len(self.items) + 1) * self.height_margin
+
+            # add title height
             title_width, title_height = draw.textsize(self.title, font=self.font)
             height += title_height * 100 / self.height_percent
             self.height = height
@@ -57,6 +63,7 @@ class settings(block):
         self.column_width = 0
         self.column_num = 0
         self.columns = []
+        self.columnusedheight = []
 
 
 
@@ -68,6 +75,8 @@ class settings(block):
         grp2.set_items([block('item121'), block('item122'), block('item123')])
         self.set_items([grp1, grp2])
         self.column_num = 2
+        self.columns = [[]] * self.column_num
+        self.columnusedheight = [0] * self.column_num
         self.column_width = 100
 
 
@@ -77,7 +86,17 @@ class settings(block):
 
 
     def align_items(self):
-        pass
+        self.items.sort(key=lambda x:-x.height)
+
+        for blk in self.items:
+            # find the shortest column index
+            minh_index = self.columnusedheight.index(min(self.columnusedheight))
+
+            # add height
+            self.columns[minh_index].append(blk)
+            self.columnusedheight[minh_index] += blk.height + self.height_margin
+
+
 
     def draw_all(self):
         pass

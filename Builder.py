@@ -17,10 +17,10 @@ class style:
         self.fontsize = 20
         self.fonttype = "msyh.ttc"
         self.font = ImageFont.truetype(self.fonttype, self.fontsize)
-        self.fontcolor = (0,0,0,0)
+        self.fontcolor = (0,0,0,255)
         self.bordertype = 0
-        self.bordercolor = (0,0,0,0)
-        self.fillincolor = (0,0,0,0)
+        self.bordercolor = (0,0,0,255)
+        self.fillincolor = (0,0,0,255)
 
 class block(style):
     def __init__(self, t=""):
@@ -55,6 +55,33 @@ class block(style):
             self.height = height
             return self.height
 
+    def draw(self, topleftcorner, drawobj, column_width):
+        # draw the border
+        drawobj.rectangle((topleftcorner[0], topleftcorner[1],
+                           topleftcorner[0] + column_width, topleftcorner[1] + self.height),
+                          fill=(0,0,0,0),
+                          outline=self.bordercolor)
+
+        # title text-align to center
+        titlewidth, titleheight = drawobj.textsize(self.title, font=self.font)
+        offset = 0
+        if len(self.items) > 0:
+            offset = (column_width - titlewidth) / 2
+        drawobj.text((topleftcorner[0] + offset,
+                     topleftcorner[1]),
+                     self.title,
+                     font=self.font,
+                     fill=self.fontcolor)
+        paddingwidth = (100 - self.height_percent)/200 * column_width
+        paddingheight = (100 - self.width_percent)/200 * self.height
+        coord = (topleftcorner[0] + paddingwidth,
+                 topleftcorner[1] + titleheight + paddingheight)
+
+        for item in self.items:
+            item.draw(coord, drawobj, self.width_percent/100*column_width)
+            coord = (coord[0], coord[1] + item.height + item.height_margin)
+
+
 
 
 class settings(block):
@@ -75,7 +102,7 @@ class settings(block):
         grp2.set_items([block('item121'), block('item122'), block('item123')])
         self.set_items([grp1, grp2])
         self.column_num = 2
-        self.columns = [[]] * self.column_num
+        self.columns = [[] for i in range(self.column_num)]
         self.columnusedheight = [0] * self.column_num
         self.column_width = 100
 
@@ -96,10 +123,38 @@ class settings(block):
             self.columns[minh_index].append(blk)
             self.columnusedheight[minh_index] += blk.height + self.height_margin
 
+        self.height = max(self.columnusedheight) + \
+                      draw.textsize(self.title,font=self.font)[1] + \
+                      self.height_margin
 
 
     def draw_all(self):
-        pass
+        result_width = self.column_num * self.column_width + (self.column_num + 1) * self.width_margin
+        result_height = self.height
+        print result_width, result_height
+        result_img = Image.new("RGBA", (result_width, result_height))
+        result_draw = ImageDraw.Draw(result_img)
+        coordinate = (0,0)
+
+        # draw the border
+        result_draw.rectangle((coordinate[0],coordinate[1],result_width - 1,result_height - 1),fill=(0,0,0,0),outline=self.bordercolor)
+        result_draw.text(coordinate, self.title, font=self.font, fill=self.fillincolor)
+
+        for i, column in enumerate(self.columns):
+            # every column's top left corner
+            tmp_coord = (self.width_margin + (self.width_margin + self.column_width)*i,
+                         draw.textsize(self.title,font=self.font)[1] + self.height_margin)
+
+            # to draw every block
+            blk_coord = (tmp_coord[0], tmp_coord[1])
+            for j, block in enumerate(column):
+                block.draw(blk_coord, result_draw, self.column_width)
+                blk_coord = (blk_coord[0], blk_coord[1] +
+                             block.height +
+                             block.height_margin)
+
+        result_img.save("test2.png")
+
 
 
 

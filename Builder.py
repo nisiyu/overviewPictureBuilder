@@ -138,7 +138,9 @@ class settings(block):
         coordinate = (0,0)
 
         # draw the border
-        result_draw.rectangle((coordinate[0],coordinate[1],result_width - 1,result_height - 1),fill=(0,0,0,0),outline=self.bordercolor)
+        result_draw.rectangle((coordinate[0],coordinate[1],result_width - 1,result_height - 1),
+                              fill=(0,0,0,0),
+                              outline=self.bordercolor)
         result_draw.text(coordinate, self.title, font=self.font, fill=self.fillincolor)
 
         for i, column in enumerate(self.columns):
@@ -155,7 +157,6 @@ class settings(block):
                              block.height_margin)
 
         result_img.save("test2.png")
-
 
 
 

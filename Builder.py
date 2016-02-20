@@ -65,20 +65,20 @@ class block(style):
         # title text-align to center
         titlewidth, titleheight = drawobj.textsize(self.title, font=self.font)
         offset = 0
-        if len(self.items) > 0:
-            offset = (column_width - titlewidth) / 2
+        #if len(self.items) > 0:
+        offset = (column_width - titlewidth) / 2
         drawobj.text((topleftcorner[0] + offset,
                      topleftcorner[1]),
                      self.title,
                      font=self.font,
                      fill=self.fontcolor)
-        paddingwidth = (100 - self.height_percent)/200 * column_width
-        paddingheight = (100 - self.width_percent)/200 * self.height
+        paddingwidth = (100 - self.height_percent) * column_width / 200
+        paddingheight = (100 - self.width_percent) * self.height / 200
         coord = (topleftcorner[0] + paddingwidth,
-                 topleftcorner[1] + titleheight + paddingheight)
+                 topleftcorner[1] + titleheight + paddingheight + self.height_margin)
 
         for item in self.items:
-            item.draw(coord, drawobj, self.width_percent/100*column_width)
+            item.draw(coord, drawobj, self.width_percent*column_width/100)
             coord = (coord[0], coord[1] + item.height + item.height_margin)
 
 
@@ -109,7 +109,7 @@ class settings(block):
 
     def calc_all_items_height(self):
         for blk in self.items:
-            print blk.calc_height()
+            blk.calc_height()
 
 
     def align_items(self):
@@ -131,7 +131,6 @@ class settings(block):
     def draw_all(self):
         result_width = self.column_num * self.column_width + (self.column_num + 1) * self.width_margin
         result_height = self.height
-        print result_width, result_height
         result_img = Image.new("RGBA", (result_width, result_height))
         result_draw = ImageDraw.Draw(result_img)
         coordinate = (0,0)

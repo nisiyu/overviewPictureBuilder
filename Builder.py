@@ -2,10 +2,12 @@
 __author__ = 'siyu'
 
 from PIL import Image, ImageDraw, ImageFont
+import extendedDraw
 import sys
 
 tmpimg = Image.new("RGBA",(100,60))
-draw = ImageDraw.Draw(tmpimg)
+draw = extendedDraw.Draw(tmpimg)
+#draw = ImageDraw.Draw(tmpimg)
 
 
 class style:
@@ -132,7 +134,7 @@ class settings(block):
         result_width = self.column_num * self.column_width + (self.column_num + 1) * self.width_margin
         result_height = self.height
         result_img = Image.new("RGBA", (result_width, result_height))
-        result_draw = ImageDraw.Draw(result_img)
+        result_draw = extendedDraw.Draw(result_img)
         coordinate = (0,0)
 
         # draw the border

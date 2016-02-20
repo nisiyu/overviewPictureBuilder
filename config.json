@@ -1,0 +1,27 @@
+{
+  "column_num":2,
+  "column_width":100,
+  "title":"标题",
+  "items":[
+    {
+      "title":"title1",
+      "items":[{
+        "title":"item111"
+      },{
+        "title":"item112"
+      }
+      ]
+    },//end title1
+    {
+      "title":"title2",
+      "items":[{
+        "title":"item121"
+      },{
+        "title":"item122"
+      },{
+        "title": "item123"
+      }
+      ]
+    }//end title2
+  ]
+}

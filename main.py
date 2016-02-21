@@ -8,3 +8,5 @@ def main(args):
         s.draw_all()
     except Exception as ex:
         print ex
+
+main(1)

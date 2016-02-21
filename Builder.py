@@ -20,7 +20,7 @@ class style:
         self.fonttype = "msyh.ttc"
         self.font = ImageFont.truetype(self.fonttype, self.fontsize)
         self.fontcolor = (0,0,0,255)
-        self.bordertype = 0
+        self.border_radius = (0,0)
         self.bordercolor = (0,0,0,255)
         self.fillincolor = (0,0,0,255)
 
@@ -59,8 +59,9 @@ class block(style):
 
     def draw(self, topleftcorner, drawobj, column_width):
         # draw the border
-        drawobj.rectangle((topleftcorner[0], topleftcorner[1],
+        drawobj.rectangle_radius((topleftcorner[0], topleftcorner[1],
                            topleftcorner[0] + column_width, topleftcorner[1] + self.height),
+                                 self.border_radius,
                           fill=(0,0,0,0),
                           outline=self.bordercolor)
 
@@ -157,5 +158,3 @@ class settings(block):
                              block.height_margin)
 
         result_img.save("test2.png")
-
-

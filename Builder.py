@@ -67,7 +67,7 @@ class block(style):
         drawobj.rectangle_radius((topleftcorner[0], topleftcorner[1],
                            topleftcorner[0] + column_width, topleftcorner[1] + self.height),
                                  self.border_radius,
-                          fill=(0,0,0,0),
+                          fill=self.fillincolor,
                           outline=self.bordercolor)
 
         # title text-align to center
@@ -144,10 +144,11 @@ class settings(block):
         coordinate = (0,0)
 
         # draw the border
-        result_draw.rectangle((coordinate[0],coordinate[1],result_width - 1,result_height - 1),
-                              fill=(0,0,0,0),
+        result_draw.rectangle_radius((coordinate[0],coordinate[1],result_width - 1,result_height - 1),
+                                     radius=self.border_radius,
+                              fill=self.fillincolor,
                               outline=self.bordercolor)
-        result_draw.text(coordinate, self.title, font=self.font, fill=self.fillincolor)
+        result_draw.text(coordinate, self.title, font=self.font, fill=self.fontcolor)
 
         for i, column in enumerate(self.columns):
             # every column's top left corner

@@ -163,4 +163,4 @@ class settings(block):
                              block.height +
                              block.height_margin)
 
-        result_img.save("test2.png")
+        result_img.save("output.png")

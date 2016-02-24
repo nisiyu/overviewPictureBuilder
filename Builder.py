@@ -12,17 +12,22 @@ draw = extendedDraw.Draw(tmpimg)
 
 class style:
     def __init__(self):
-        self.height_percent = 90
-        self.width_percent = 90
-        self.height_margin = 5
-        self.width_margin = 10
-        self.fontsize = 20
-        self.fonttype = "msyh.ttc"
+        self.setstyle()
+
+    def setstyle(self, hp=90, wp=90, hm=5, wm=10,
+                 fsize=20, ftype='msyh.ttc', fcolor=(0,0,0,255),
+                 bradius=(0,0), bcolor=(0,0,0,255), fillcolor=(0,0,0,255)):
+        self.height_percent = hp
+        self.width_percent = wp
+        self.height_margin = hm
+        self.width_margin = wm
+        self.fontsize = fsize
+        self.fonttype = ftype
         self.font = ImageFont.truetype(self.fonttype, self.fontsize)
-        self.fontcolor = (0,0,0,255)
-        self.border_radius = (0,0)
-        self.bordercolor = (0,0,0,255)
-        self.fillincolor = (0,0,0,255)
+        self.fontcolor = fcolor
+        self.border_radius = bradius
+        self.bordercolor = bcolor
+        self.fillincolor = fillcolor
 
 class block(style):
     def __init__(self, t=""):
@@ -88,26 +93,26 @@ class block(style):
 
 
 class settings(block):
-    def __init__(self):
+    def __init__(self, colnum, colwidth):
         style.__init__(self)
-        self.column_width = 0
-        self.column_num = 0
-        self.columns = []
-        self.columnusedheight = []
-
-
-
-    def test_data(self):
-        self.title = u'标题1'
-        grp1 = block('title1')
-        grp1.set_items([block('item111'), block('item112')])
-        grp2 = block('title2')
-        grp2.set_items([block('item121'), block('item122'), block('item123')])
-        self.set_items([grp1, grp2])
-        self.column_num = 2
+        self.column_width = colwidth
+        self.column_num = colnum
         self.columns = [[] for i in range(self.column_num)]
         self.columnusedheight = [0] * self.column_num
-        self.column_width = 100
+
+
+    #
+    # def test_data(self):
+    #     self.title = u'标题1'
+    #     grp1 = block('title1')
+    #     grp1.set_items([block('item111'), block('item112')])
+    #     grp2 = block('title2')
+    #     grp2.set_items([block('item121'), block('item122'), block('item123')])
+    #     self.set_items([grp1, grp2])
+    #     self.column_num = 2
+    #     self.columns = [[] for i in range(self.column_num)]
+    #     self.columnusedheight = [0] * self.column_num
+    #     self.column_width = 100
 
 
     def calc_all_items_height(self):

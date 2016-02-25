@@ -54,11 +54,11 @@ class block(style):
                 height += item.calc_height()
 
             # add margins
-            height += (len(self.items) + 1) * self.height_margin
+            height += (len(self.items) + 1) * self.items[0].height_margin
 
             # add title height
             title_width, title_height = draw.textsize(self.title, font=self.font)
-            height += title_height * 100 / self.height_percent
+            height += (title_height + self.height_margin)* 100 / self.height_percent
             self.height = height
             return self.height
 
@@ -81,9 +81,13 @@ class block(style):
                      font=self.font,
                      fill=self.fontcolor)
         paddingwidth = (100 - self.height_percent) * column_width / 200
-        paddingheight = (100 - self.width_percent) * self.height / 200
+        paddingheight = (100 - self.width_percent) * titleheight / 200
+        if self.items:
+            sonhmargin = self.items[0].height_margin
+        else:
+            sonhmargin = self.height_margin
         coord = (topleftcorner[0] + paddingwidth,
-                 topleftcorner[1] + titleheight + paddingheight + self.height_margin)
+                 topleftcorner[1] + titleheight + paddingheight * 2 + sonhmargin )
 
         for item in self.items:
             item.draw(coord, drawobj, self.width_percent*column_width/100)
@@ -99,20 +103,6 @@ class settings(block):
         self.column_num = colnum
         self.columns = [[] for i in range(self.column_num)]
         self.columnusedheight = [0] * self.column_num
-
-
-    #
-    # def test_data(self):
-    #     self.title = u'标题1'
-    #     grp1 = block('title1')
-    #     grp1.set_items([block('item111'), block('item112')])
-    #     grp2 = block('title2')
-    #     grp2.set_items([block('item121'), block('item122'), block('item123')])
-    #     self.set_items([grp1, grp2])
-    #     self.column_num = 2
-    #     self.columns = [[] for i in range(self.column_num)]
-    #     self.columnusedheight = [0] * self.column_num
-    #     self.column_width = 100
 
 
     def calc_all_items_height(self):
@@ -153,7 +143,7 @@ class settings(block):
         for i, column in enumerate(self.columns):
             # every column's top left corner
             tmp_coord = (self.width_margin + (self.width_margin + self.column_width)*i,
-                         draw.textsize(self.title,font=self.font)[1] + self.height_margin)
+                         draw.textsize(self.title,font=self.font)[1] + column[0].height_margin)
 
             # to draw every block
             blk_coord = (tmp_coord[0], tmp_coord[1])

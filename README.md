@@ -10,7 +10,7 @@ overviewPictureBuilder
 
 ## How to use
 
-1. 打开`ConfigParser.py`修改其中的配置
+1. 打开`config.py`修改其中的配置
  `item_str` 所有标题的内容
  `column_num` 二级标题对应的列数，二级标题需要放进多少列
  `column_width` 每一列的矩形占的宽度

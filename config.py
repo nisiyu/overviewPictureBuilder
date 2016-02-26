@@ -1,23 +1,18 @@
 # coding:utf-8
 item_str=u'''
-# 标题 @style1
-## title1 @style2
-### item111
-### item112
-### item113
-### item114
-### item115
-### item116
-### item117
-### item118
-### item119
-## title2
-### item121
-### item122
-### item123
-## title3
-### item131
-### item132
+# 安全技能 @style1
+## 编程 @style2
+### C
+### Python
+### Java
+### PHP
+## 搜集信息
+### nmap
+### GoogleHacking
+### Nessus
+## web工具
+### Burp
+### sqlmap
 '''
 column_num = 2
 column_width = 400
